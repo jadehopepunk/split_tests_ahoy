@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330002959) do
+ActiveRecord::Schema.define(version: 20150330034741) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -25,6 +25,12 @@ ActiveRecord::Schema.define(version: 20150330002959) do
   add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
   add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
   add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
+
+  create_table "split_tests_ahoy_experiments", force: :cascade do |t|
+    t.string "name"
+  end
+
+  add_index "split_tests_ahoy_experiments", ["name"], name: "index_split_tests_ahoy_experiments_on_name"
 
   create_table "visits", force: :cascade do |t|
     t.uuid     "visitor_id",       limit: 16
