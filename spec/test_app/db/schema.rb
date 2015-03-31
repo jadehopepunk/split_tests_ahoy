@@ -11,29 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330034741) do
+ActiveRecord::Schema.define(version: 20150330050247) do
 
-  create_table "ahoy_events", force: :cascade do |t|
-    t.uuid     "visit_id",   limit: 16
-    t.integer  "user_id"
-    t.string   "name"
-    t.text     "properties"
-    t.datetime "time"
-  end
-
-  add_index "ahoy_events", ["id"], name: "sqlite_autoindex_ahoy_events_1", unique: true
-  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
-  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
-  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "split_tests_ahoy_experiments", force: :cascade do |t|
-    t.string "name"
+    t.string   "name"
+    t.datetime "created_at"
   end
 
-  add_index "split_tests_ahoy_experiments", ["name"], name: "index_split_tests_ahoy_experiments_on_name"
+  add_index "split_tests_ahoy_experiments", ["name"], name: "index_split_tests_ahoy_experiments_on_name", using: :btree
 
-  create_table "visits", force: :cascade do |t|
-    t.uuid     "visitor_id",       limit: 16
+  create_table "split_tests_ahoy_participants", force: :cascade do |t|
+    t.uuid     "visit_id"
+    t.integer  "experiment_id"
+    t.string   "alternative_name"
+    t.datetime "created_at"
+    t.datetime "ended_at"
+  end
+
+  create_table "visits", id: :uuid, default: nil, force: :cascade do |t|
+    t.uuid     "visitor_id"
     t.string   "ip"
     t.text     "user_agent"
     t.text     "referrer"
@@ -57,7 +56,6 @@ ActiveRecord::Schema.define(version: 20150330034741) do
     t.datetime "started_at"
   end
 
-  add_index "visits", ["id"], name: "sqlite_autoindex_visits_1", unique: true
-  add_index "visits", ["user_id"], name: "index_visits_on_user_id"
+  add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
 
 end
