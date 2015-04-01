@@ -3,10 +3,23 @@ require 'spec_helper'
 class DummyController < ActionController::Base
   include Ahoy::Controller
   include SplitTestsAhoy::TestHelpers
+end
 
+class DummyAlternativeSelector
+  attr_accessor :alternative
+
+  def alternative_for_new_visit(visit, *alternatives)
+    self.alternative || 'default'
+  end
 end
 
 describe DummyController, :type => :controller  do
+  let(:selector) { DummyAlternativeSelector.new }
+
+  before do
+    SplitTestsAhoy.alternative_selector = selector
+  end
+
   describe "split_test" do
     it "creates an experiment record if none exists" do
       subject.ahoy_split_test('first_experiment', 'foo', 'bar')
@@ -22,5 +35,20 @@ describe DummyController, :type => :controller  do
       participant = experiment.participants.first
       expect(participant.visit.id).to eq(subject.current_visit.id)
     end
+
+    it "asks the alternative selector to pick an alternative" do
+      selector.alternative = 'bar'
+
+      expect{|b| subject.ahoy_split_test('first_experiment', 'foo', 'bar', &b)}.to yield_with_args('bar')
+    end
+
+    it "doesn't change alternative on second try" do
+      selector.alternative = 'foo'
+      subject.ahoy_split_test('first_experiment', 'foo', 'bar')
+      selector.alternative = 'bar'
+
+      expect{|b| subject.ahoy_split_test('first_experiment', 'foo', 'bar', &b)}.to yield_with_args('foo')
+    end
+
   end
 end
