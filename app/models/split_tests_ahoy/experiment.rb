@@ -41,8 +41,17 @@ module SplitTestsAhoy
     end
 
     def load_configuration_hash(config)
-      @alternatives = config[:alternatives].map do |name|
-        Alternative.new(name: name)
+      @alternatives = config[:alternatives].map do |config|
+        Alternative.load_from_config(config)
+      end
+      check_configuration
+    end
+
+    def check_configuration
+      percentages = @alternatives.map(&:percent)
+      if (percentages.compact.present?)
+        raise ArgumentError, "if you specify a percentage for one option, you must do so for all" if percentages.detect(&:nil?)
+        raise ArgumentError, "if you specify percentages, they must add to 100" if percentages.sum != 100
       end
     end
   end
