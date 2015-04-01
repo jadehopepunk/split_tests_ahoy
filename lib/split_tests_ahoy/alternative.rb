@@ -18,5 +18,10 @@ module SplitTestsAhoy
 
       raise ArgumentError, "name is required" if @name.blank?
     end
+
+    def weight
+      raise ArgumentError unless percent
+      percent / 100.0
+    end
   end
 end

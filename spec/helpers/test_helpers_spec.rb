@@ -8,8 +8,12 @@ end
 class DummyAlternativeSelector
   attr_accessor :alternative
 
-  def choose_alternative(*alternatives)
-    self.alternative || 'default'
+  def choose_alternative(experiment)
+    if alternative
+      experiment.alternatives.detect {|a| a.name == alternative}
+    else
+      SplitTestsAhoy::Alternative.new(name: 'default')
+    end
   end
 end
 

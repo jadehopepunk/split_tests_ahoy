@@ -11,13 +11,14 @@ module SplitTestsAhoy
       experiment.load_configuration(alternatives)
       visit = current_visit
 
-      alternative = experiment.existing_alternative_for(visit)
-      unless alternative
-        alternative = SplitTestsAhoy.alternative_selector.choose_alternative(*alternatives)
-        experiment.start_visit_participation(visit, alternative) unless alternative.blank?
+      alternative_name = experiment.existing_alternative_for(visit)
+      unless alternative_name
+        alternative = SplitTestsAhoy.alternative_selector.choose_alternative(experiment)
+        alternative_name = alternative.name if alternative
+        experiment.start_visit_participation(visit, alternative_name) unless alternative_name.blank?
       end
 
-      yield_and_capture(alternative, &block) if alternative
+      yield_and_capture(alternative_name, &block) if alternative_name
     end
 
     private
