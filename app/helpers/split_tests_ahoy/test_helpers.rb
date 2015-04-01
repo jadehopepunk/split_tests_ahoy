@@ -8,11 +8,12 @@ module SplitTestsAhoy
       track_ahoy_visit_immediately
 
       experiment = Experiment.ensure_started(experiment_name)
+      experiment.load_configuration(alternatives)
       visit = current_visit
 
       alternative = experiment.existing_alternative_for(visit)
       unless alternative
-        alternative = SplitTestsAhoy.alternative_selector.alternative_for_new_visit(visit, *alternatives)
+        alternative = SplitTestsAhoy.alternative_selector.choose_alternative(*alternatives)
         experiment.start_visit_participation(visit, alternative) unless alternative.blank?
       end
 

@@ -8,7 +8,7 @@ end
 class DummyAlternativeSelector
   attr_accessor :alternative
 
-  def alternative_for_new_visit(visit, *alternatives)
+  def choose_alternative(*alternatives)
     self.alternative || 'default'
   end
 end
