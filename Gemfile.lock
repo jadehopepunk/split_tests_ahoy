@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     split_tests_ahoy (0.0.1)
-      ahoy_matey (~> 1.1.1)
-      rails (~> 4.2.0)
+      ahoy_matey (~> 1.1)
+      rails (~> 4.2)
 
 GEM
   remote: https://rubygems.org/
@@ -146,5 +146,5 @@ PLATFORMS
 
 DEPENDENCIES
   pg
-  rspec-rails (~> 3.2.1)
+  rspec-rails (~> 3.2)
   split_tests_ahoy!
