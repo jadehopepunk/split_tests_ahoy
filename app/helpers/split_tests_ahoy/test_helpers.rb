@@ -24,9 +24,7 @@ module SplitTestsAhoy
     private
 
     def track_ahoy_visit_immediately
-      if ahoy.new_visit?
-        ahoy.track_visit(defer: false)
-      end
+      ahoy.track_visit(defer: false)
     end
 
     def yield_and_capture(params)

@@ -20,8 +20,7 @@ module SplitTestsAhoy
     end
 
     def weight
-      raise ArgumentError unless percent
-      percent / 100.0
+      percent / 100.0 if percent
     end
   end
 end

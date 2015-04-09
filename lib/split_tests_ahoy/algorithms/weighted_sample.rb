@@ -6,7 +6,9 @@ module SplitTestsAhoy
   module Algorithms
     class WeightedSample
       def choose_alternative(experiment)
-        weights = experiment.alternatives.map(&:weight)
+        weights = experiment.alternatives.map do |alternative|
+          alternative.weight || 1.0
+        end
 
         total = weights.inject(:+)
         point = rand * total
