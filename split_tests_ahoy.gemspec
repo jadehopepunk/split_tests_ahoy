@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "A spit testing gem that uses ahoy-matey for metrics and identity"
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 4.2"
   s.add_dependency 'ahoy_matey', "~> 1.1"

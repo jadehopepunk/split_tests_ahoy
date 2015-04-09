@@ -2,7 +2,7 @@ require 'spec_helper'
 
 class DummyController < ActionController::Base
   include Ahoy::Controller
-  include SplitTestsAhoy::TestHelpers
+  include SplitTestsAhoy::ControllerExtensions
 end
 
 class DummyAlternativeSelector

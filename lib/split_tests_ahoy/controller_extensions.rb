@@ -1,7 +1,10 @@
-require 'split_tests_ahoy/visit'
 
 module SplitTestsAhoy
-  module TestHelpers
+  module ControllerExtensions
+    def self.included(base)
+      base.helper_method :ahoy_split_test
+    end
+
     def ahoy_split_test(experiment_name, *alternatives, &block)
       raise ArgumentError.new("Invalid name #{experiment_name.inspect}") if experiment_name.blank?
 

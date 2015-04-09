@@ -35,6 +35,12 @@ rake split_tests_ahoy:install:migrations
 rake db:migrate
 ```
 
+In your ApplicationController class, or alternatively just in the controllers you wish to perform tests in, add this line:
+
+```ruby
+include SplitTestsAhoy::ControllerExtensions
+```
+
 This gem is a rails engine, and only works outside of rails if you can support the load paths set up by rails engines.
 
 ## Usage

@@ -1,6 +1,7 @@
 require "split_tests_ahoy/engine"
 require 'split_tests_ahoy/algorithms/weighted_sample'
 require 'split_tests_ahoy/alternative'
+require 'split_tests_ahoy/controller_extensions'
 
 begin
   RailsAdmin
