@@ -17,12 +17,14 @@ module SplitTestsAhoy
       participants.for_visit(visit).create!(alternative_name: alternative)
     end
 
-    def load_configuration(alternative_names = [])
+    def load_configuration(alternative_names = nil)
       config_details = if global_config
         raise ArgumentError, "Don't provide alternative names via the method call if you also provide configure this experiment in your initializer" if !alternative_names.empty?
         global_config
-      else
+      elsif alternative_names
         {alternatives: alternative_names}
+      else
+        {alternatives: alternative_names_from_participants}
       end
 
       load_configuration_hash config_details
@@ -42,7 +44,7 @@ module SplitTestsAhoy
 
     def load_configuration_hash(config)
       @alternatives = config[:alternatives].map do |config|
-        Alternative.load_from_config(config)
+        Alternative.load_from_config(self, config)
       end
       check_configuration
     end
@@ -53,6 +55,11 @@ module SplitTestsAhoy
         raise ArgumentError, "if you specify a percentage for one option, you must do so for all" if percentages.detect(&:nil?)
         raise ArgumentError, "if you specify percentages, they must add to 100" if percentages.sum != 100
       end
+    end
+
+    def alternative_names_from_participants
+      column = "alternative_name"
+      participants.group(column).pluck(column)
     end
   end
 end
