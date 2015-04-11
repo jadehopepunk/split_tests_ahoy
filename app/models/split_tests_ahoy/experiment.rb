@@ -19,7 +19,9 @@ module SplitTestsAhoy
 
     def load_configuration(alternative_names = nil)
       config_details = if global_config
-        raise ArgumentError, "Don't provide alternative names via the method call if you also provide configure this experiment in your initializer" if !alternative_names.empty?
+        unless alternative_names.nil? || alternative_names.empty?
+          raise ArgumentError, "Don't provide alternative names via the method call if you also provide configure this experiment in your initializer"
+        end
         global_config
       elsif alternative_names
         {alternatives: alternative_names}
@@ -35,6 +37,11 @@ module SplitTestsAhoy
       @alternatives
     end
 
+    def metric
+      raise ArgumentError.new("no metric") unless @metric
+      @metric.new(self)
+    end
+
     private
 
     def global_config
@@ -46,6 +53,7 @@ module SplitTestsAhoy
       @alternatives = config[:alternatives].map do |config|
         Alternative.load_from_config(self, config)
       end
+      @metric = config[:metric].constantize if config[:metric]
       check_configuration
     end
 

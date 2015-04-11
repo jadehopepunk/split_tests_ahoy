@@ -16,7 +16,6 @@ module SplitTestsAhoy
       @name = options[:name]
       @percent = options[:percent]
       @experiment = options[:experiment]
-      @metric = options[:metric].constantize if options[:metric]
 
       raise ArgumentError, "name is required" if @name.blank?
     end
@@ -30,16 +29,17 @@ module SplitTestsAhoy
     end
 
     def conversions_at(datetime = Time.now)
-      metric.success_score_at(datetime)
+      metric.conversions_at(datetime)
     end
 
     def population_at(datetime = Time.now)
       metric.population_at(datetime)
     end
 
+    private
+
     def metric
-      raise ArgumentError.new("no metric") unless @metric
-      @metric.new(self)
+      @experiment.metric
     end
   end
 end

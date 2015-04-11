@@ -10,6 +10,8 @@ rescue NameError
   nil
 end
 
+require 'split_tests_ahoy/participation_scopes'
+
 module SplitTestsAhoy
   mattr_accessor :alternative_selector
   mattr_accessor :experiments
