@@ -26,4 +26,4 @@ module SplitTestsAhoy
 
 end
 
-ActiveRecord::Base.include(SplitTestsAhoy::ParticipationScopes)
+ActiveRecord::Base.send(:include, SplitTestsAhoy::ParticipationScopes)
