@@ -12,7 +12,7 @@ module SplitTestsAhoy
 
         participants_table = SplitTestsAhoy::Participant.table_name
 
-        scope :participating_in_at_creation, -> (alternative) {
+        scope :participating_in_at_creation, lambda { |alternative|
           joins("INNER JOIN #{identity_table} ON #{table_name}.#{identity_id} = #{identity_table}.id").
           joins("INNER JOIN visits ON visits.user_id = #{identity_table}.id").
           joins("INNER JOIN #{participants_table} ON #{participants_table}.visit_id = visits.id").
