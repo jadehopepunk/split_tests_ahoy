@@ -37,9 +37,9 @@ module SplitTestsAhoy
       @alternatives
     end
 
-    def metric
+    def metric_class
       raise ArgumentError.new("no metric") unless @metric
-      @metric.new(self)
+      @metric
     end
 
     private

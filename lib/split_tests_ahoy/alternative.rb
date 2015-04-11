@@ -36,10 +36,14 @@ module SplitTestsAhoy
       metric.population_at(datetime)
     end
 
+    def experiment_id
+      @experiment.id
+    end
+
     private
 
     def metric
-      @experiment.metric
+      @experiment.metric_class.new(self)
     end
   end
 end
